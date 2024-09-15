@@ -1,0 +1,25 @@
+1.SELECT *
+ FROM books;
+2.SELECT title
+ FROM books;
+3.SELECT title, pubdate
+ FROM books;
+4.SELECT customer#, city, state
+ FROM customers;
+5.SELECT name, contact AS "Contact Person", phone
+ FROM publisher;
+6.SELECT DISTINCT category
+ FROM books;
+7.SELECT DISTINCT customer#
+ FROM orders;
+8.SELECT category, title
+ FROM books;
+9.SELECT authorid || ':' || lname || ', ' || fname "author"
+ FROM author;
+10.SELECT quantity*paideach "item total"
+ FROM orderitems;
+advanced Challenge
+1 SELECT lastname || ',' || firstname "Name", address, city || ',' || state "Location" , zip
+ FROM customers;
+2 SELECT cost-retail/cost *100 "profit %"
+ FROM books;
