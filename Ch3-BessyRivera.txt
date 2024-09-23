@@ -1,0 +1,111 @@
+Chapter 3, Hands-on #1
+1.
+CREATE TABLE category ( 
+    catcode VARCHAR2 (2), 
+    catdesc VARCHAR2(10));
+Output
+Table created.
+2.
+CREATE TABLE employees ( 
+    emp# NUMBER (5), 
+    lastname VARCHAR2(25), 
+    firstname VARCHAR2(25), 
+    job_class VARCHAR2(4));
+Output
+Table created.
+3.
+ALTER TABLE employees 
+ ADD (empdate DATE DEFAULT sysdate, 
+    enddate DATE);
+Output
+Table altered.
+4.
+ALTER TABLE employees 
+ MODIFY (job_class VARCHAR2(2));
+Output
+Table altered.
+5.
+ALTER TABLE employees 
+ DROP COLUMN enddate;
+Output 
+Table altered.
+6.
+RENAME employees TO jl_emps;
+Output 
+Statement processed.
+7.
+CREATE TABLE book_pricing 
+ AS (SELECT isbn AS id,cost, retail, category 
+    FROM books);
+Output 
+Table created.
+8.
+ALTER TABLE book_pricing 
+ SET UNUSED (category);
+Output
+Tablet altered.
+
+DESC book_pricing
+Output 
+TABLE BOOK_PRICING
+Column	Null?	Type
+ID	-	VARCHAR2(10)
+COST	-	NUMBER(5,2)
+RETAIL	-	NUMBER(5,2)
+9.
+TRUNCATE TABLE book_pricing
+Output 
+Table truncated.
+
+DESC book_pricing
+Output 
+TABLE BOOK_PRICING
+Column	Null?	Type
+ID	-	VARCHAR2(10)
+COST	-	NUMBER(5,2)
+RETAIL	-	NUMBER(5,2)
+10.
+DROP TABLE book_pricing PURGE;
+Output 
+Table drop
+
+DROP TABLE jl_emps
+Output 
+Table dropped.
+
+FLASHBACK TABLE jl_emps 
+ TO BEFORE DROP;
+Output 
+Statement processed.
+
+DESC jl_emps
+Output 
+TABLE JL_EMPS
+Column	Null?	Type
+EMP#	-	NUMBER(5,0)
+LASTNAME	-	VARCHAR2(25)
+FIRSTNAME	-	VARCHAR2(25)
+JOB_CLASS	-	VARCHAR2(2)
+EMPDATE	-	DATE
+
+Chapter 3, Advanced Challenge #2
+1.
+ALTER TABLE acctmanager 
+ ADD (comm_id INT DEFAULT 10, 
+ ben_id INT);
+Output 
+Table altered.
+2.
+CREATE TABLE commrate( 
+    comm_id INT, 
+    comm_rank VARCHAR2(15), 
+    rate DECIMAL(5,2));
+Output 
+Table created.
+CREATE TABLE benefits( 
+    ben_id INT, 
+    ben_plan CHAR(1), 
+    ben_provider INT, 
+    active CHAR(1));
+Output 
+Table created.
