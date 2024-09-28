@@ -1,0 +1,16 @@
+Chapter 4, Hands-on #1
+1.
+CREATE TABLE store_reps
+ (rep_id NUMBER(5),
+ last VARCHAR2(10),
+ first VARCHAR2(10),
+ comm CHAR(1) DEFAULT 'Y',
+ CONSTRAINT store_reps_rep_id_pk PRIMARY KEY (rep_id));
+Output
+Table created.
+ALTER TABLE store_reps
+ MODIFY (first CONSTRAINT store_rep_first_nn NOT NULL,
+    last CONSTRAINT store_reps_last_nn NOT NULL);
+Output 
+Table altered.
+3.
