@@ -14,3 +14,40 @@ ALTER TABLE store_reps
 Output 
 Table altered.
 3.
+ALTER TABLE store_reps
+ MODIFY comm CHAR(1) CHECK (comm IN ('Y', 'N'));
+Output 
+Table altered.
+4.
+ALTER TABLE store_reps
+ ADD based_salary NUMBER(7,2) CHECK (based_salary > 0);
+Output
+Tab.e altered.
+5.
+CREATE TABLE book_stores(
+ store_id NUMBER(8),
+ name VARCHAR2(30) NOT NULL,
+ contact VARCHAR2(30),
+ rep_id VARCHAR2(5),
+ CONSTRAINT book_stores_store_id_pk PRIMARY KEY (store_id),
+ CONSTRAINT book_stores_name_uk UNIQUE (name));
+Output 
+Table created.
+6.
+ALTER TABLE book_stores
+ MODIFY (rep_id NUMBER(5));
+Output 
+Table altered.
+
+ALTER TABLE book_stores
+ ADD CONSTRAINT book_store_rep_id_fk FOREIGN KEY(rep_id)
+ REFERENCES store_reps(rep_id);
+Output
+Table altered.
+7.
+ALTER TABLE book_stores
+ ADD CONSTRAINT book_stores_rep_id_fk FOREIGN KEY(rep_id)
+  REFERENCES store_reps(rep_id) ON DELETE CASCADE;
+Output 
+Table altered.
+8.
