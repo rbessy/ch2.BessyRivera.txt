@@ -20,9 +20,14 @@ Output
 Table altered.
 4.
 ALTER TABLE store_reps
- ADD based_salary NUMBER(7,2) CHECK (based_salary > 0);
+ ADD based_salary NUMBER(7,2);
 Output
-Tab.e altered.
+Table altered.
+
+ALTER TABLE store_reps
+ ADD CONSTRAINT store_reps_based_salary_ck CHECK (based_salary > 0);
+Output
+Table altered.
 5.
 CREATE TABLE book_stores(
  store_id NUMBER(8),
@@ -51,3 +56,48 @@ ALTER TABLE book_stores
 Output 
 Table altered.
 8.
+CREATE TABLE rep_contracts (
+ store_id NUMBER(8),
+ name NUMBER(5),
+ quarter CHAR(3),
+ rep_id NUMBER(5),
+ CONSTRAINT rep_contracts_store_id_name_quarter_pk PRIMARY KEY (store_id, name, quarter),
+ CONSTRAINT rep_contracts_rep_id_fk FOREIGN KEY (rep_id)
+ REFERENCES store_reps (rep_id),
+ CONSTRAINT rep_contracts_store_id_fk FOREIGN KEY (store_id)
+ REFERENCES book_stores (store_id));
+Output
+Table created.
+9.
+SELECT constraint_name, constraint_type, search_condition, r_constraint_name
+ FROM user_constraints
+ WHERE table_name = 'STORE_REPS';
+Output
+CONSTRAINT_NAME	CONSTRAINT_TYPE	SEARCH_CONDITION	R_CONSTRAINT_NAME
+STORE_REPS_REP_ID_PK	P	 - 	 - 
+STORE_REP_FIRST_NN	C	"FIRST" IS NOT NULL	 - 
+STORE_REPS_LAST_NN	C	"LAST" IS NOT NULL	 - 
+SYS_C00167319196	C	comm IN ('Y', 'N')	 - 
+SYS_C00167319198	C	based_salary > 0	 - 
+10.
+ALTER TABLE store_reps
+ DISABLE CONSTRAINT store_reps_based_salary_ck;
+Output
+TAble altered.
+
+ALTER TABLE store_reps
+ ENABLE CONSTRAINT store_reps_based_salary_ck;
+Output
+Table altered.
+
+Chapter 4, Advanced Challenge #2
+CREATE TABLE project (
+ proj# NUMBER(4),
+ p_name VARCHAR2(15),
+ p_desc VARCHAR2(15),
+ p_budget NUMBER(7, 2),
+ CONSTRAINT project_proj#_pk PRIMARY KEY (proj#),
+ CONSTRAINT project_p_name_uk UNIQUE (p_name));
+Output
+Table created.
+
