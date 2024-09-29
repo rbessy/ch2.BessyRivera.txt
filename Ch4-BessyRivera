@@ -91,6 +91,7 @@ Output
 Table altered.
 
 Chapter 4, Advanced Challenge #2
+
 CREATE TABLE project (
  proj# NUMBER(4),
  p_name VARCHAR2(15),
@@ -101,3 +102,19 @@ CREATE TABLE project (
 Output
 Table created.
 
+CREATE TABLE workorders (
+ wo# NUMBER(4),
+ proj# NUMBER(4),
+ wo_desc VARCHAR2(50) NOT NULL,
+ wo_assigned VARCHAR2(50),
+ wo_hours NUMBER(4) NOT NULL,
+ wo_start DATE,
+ wo_due DATE,
+ wo_complete CHAR(1) CHECK (wo_complete IN ('Y','N')),
+ CONSTRAINT workorders_wo#_pk PRIMARY KEY (wo#),
+ CONSTRAINT workorders_proj#_fk FOREIGN KEY (proj#)
+ REFERENCES project (proj#),
+ CONSTRAINT workorders_wo_desc_uk UNIQUE (wo_desc),
+ CONSTRAINT workorders_wo_hours_ck CHECK (wo_hours > 0));
+Output
+Table created.
