@@ -30,3 +30,17 @@ ORA-01400: cannot insert NULL into ("SQL_CVOAWSYHPWKOCDHGOLVLKAJWQ"."ORDERS"."OR
 The error is that we cannot insert NULL value to ORDERDATE.
 What cause the error is the orderdate column has a NOT NULL constraint.
 6.
+UPDATE orders
+	SET cost = '&cost'
+    WHERE isbn = '&isbn';
+7.
+"omitted"
+8.
+ROLLBACK TO ONE;
+9.
+DELETE FROM orderitems
+	WHERE order# = 1005;
+Output
+1 row(s) deleted.
+10.
+ROLLBACK;
