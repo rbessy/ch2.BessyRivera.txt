@@ -1,0 +1,32 @@
+Chapter 5, Hands on #1
+1.
+INSERT INTO orders (order#, customer#, orderdate)
+	VALUES (1021, 1009, '20-JUL-2009');
+Output
+
+2.
+UPDATE orders
+	SET shipzip = '33222'
+	WHERE order# = 1017;
+Output
+1 row(s) updated.
+3.
+COMMIT;
+Statement processed.
+4.
+INSERT INTO orders (order#, customer#, orderdate)
+	VALUES (1022, 2000, '06-AUG-2009');
+Output
+ORA-02291: integrity constraint (SQL_CVOAWSYHPWKOCDHGOLVLKAJWQ.ORDERS_CUSTOMER#_FK) violated - parent key not found ORA-06512: at "SYS.DBMS_SQL", line 1721
+
+The error is that A foreign key value has no matching primary key value.
+What cause the error is that there is no customer in the customers tablet meaning that there is no customer# and neither a primary key for the customer# so we cannot put a customer# in the orders tablet that does not exist and does not have a primary key to match the foreign key.
+5.
+INSERT INTO orders (order#, customer#)
+	VALUES (1023, 1009);
+Output
+ORA-01400: cannot insert NULL into ("SQL_CVOAWSYHPWKOCDHGOLVLKAJWQ"."ORDERS"."ORDERDATE") ORA-06512: at "SYS.DBMS_SQL", line 1721
+
+The error is that we cannot insert NULL value to ORDERDATE.
+What cause the error is the orderdate column has a NOT NULL constraint.
+6.
