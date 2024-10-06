@@ -44,3 +44,144 @@ Output
 1 row(s) deleted.
 10.
 ROLLBACK;
+
+Advanced Challenge #2
+1. 
+CREATE TABLE category
+	(catcode VARCHAR2(3),
+    catdesc VARCHAR2(11) NOT NULL,
+    CONSTRAINT category_catcode_pk PRIMARY KEY (catcode));
+Output
+Table created.
+
+INSERT INTO  category
+	VALUES ('BUS', 'BUSINESS');
+Output
+1 row(s) inserted.
+
+INSERT INTO category
+	VALUES ('CHN', 'CHILDREN');
+Output
+1 row(s) inserted.
+
+INSERT INTO category
+	VALUES ('COK', 'COOKING');
+Output
+1 row(s) inserted.
+
+INSERT INTO category
+	VALUES ('COM', 'COMPUTER');
+Output
+1 row(s) inserted.
+
+INSERT INTO category
+	VALUES ('FAL', 'FAMILY LIFE');
+Output
+1 row(s) inserted.
+
+INSERT INTO category
+	VALUES ('FIT', 'FITNESS');
+Output
+1 row(s) inserted.
+
+INSERT INTO category
+	VALUES ('SEH', 'SELF HELP');
+Output
+1 row(s) inserted.
+
+INSERT INTO category
+	VALUES ('LIT', 'LITERATURE');
+Output
+1 row(s) inserted.
+
+COMMIT;
+Output
+Statement processed.
+
+2.
+ALTER TABLE books
+	ADD (catcode VARCHAR2(3));
+Output
+Table altered.
+3.
+ALTER TABLE books
+	ADD CONSTRAINT books_catcode_fk FOREIGN KEY (catcode)
+	REFERENCES category (catcode);
+Output
+Table altered.
+
+UPDATE books
+	SET catcode = 'BUS'
+	WHERE category = 'BUSINESS';
+Output
+1 row(s) updated.
+
+UPDATE books
+	SET catcode = 'CHN'
+	WHERE category = 'CHILDREN';
+Output
+2 row(s) updated.
+
+UPDATE books
+	SET catcode = 'COK'
+	WHERE category = 'COOKING';
+Output
+1 row(s) updated.
+
+UPDATE books
+	SET catcode = 'COM'
+	WHERE category = 'COMPUTER';
+Output
+4 row(s) updated.
+
+UPDATE books 
+	SET catcode = 'FAL'
+	WHERE category = 'FAMILY LIFE';
+Output
+2 row(s) updated.
+
+UPDATE books
+	SET catcode = 'FIT'
+	WHERE category = 'FITNESS';
+Output
+1 row(s) updated.
+
+UPDATE books 
+	SET catcode = 'SEH'
+	WHERE category = 'SELF HELP';
+Output
+1 row(s) updated.
+
+UPDATE books
+	SET catcode = 'LIT'
+	WHERE category = 'LITERATURE';
+Output
+1 row(s) updated.
+4.
+SELECT *
+	FROM books;
+Output
+ISBN	TITLE	PUBDATE	PUBID	COST	RETAIL	DISCOUNT	CATEGORY	CATCODE
+1059831198	BODYBUILD IN 10 MINUTES A DAY	21-JAN-05	4	18.75	30.95	 - 	FITNESS	FIT
+0401140733	REVENGE OF MICKEY	14-DEC-05	1	14.2	22	 - 	FAMILY LIFE	FAL
+4981341710	BUILDING A CAR WITH TOOTHPICKS	18-MAR-06	2	37.8	59.95	3	CHILDREN	CHN
+8843172113	DATABASE IMPLEMENTATION	04-JUN-03	3	31.4	55.95	 - 	COMPUTER	COM
+3437212490	COOKING WITH MUSHROOMS	28-FEB-04	4	12.5	19.95	 - 	COOKING	COK
+3957136468	HOLY GRAIL OF ORACLE	31-DEC-05	3	47.25	75.95	3.8	COMPUTER	COM
+1915762492	HANDCRANKED COMPUTERS	21-JAN-05	3	21.8	25	 - 	COMPUTER	COM
+9959789321	E-BUSINESS THE EASY WAY	01-MAR-06	2	37.9	54.5	 - 	COMPUTER	COM
+2491748320	PAINLESS CHILD-REARING	17-JUL-04	5	48	89.95	4.5	FAMILY LIFE	FAL
+0299282519	THE WOK WAY TO COOK	11-SEP-04	4	19	28.75	 - 	COOKING	COK
+8117949391	BIG BEAR AND LITTLE DOVE	08-NOV-05	5	5.32	8.95	 - 	CHILDREN	CHN
+0132149871	HOW TO GET FASTER PIZZA	11-NOV-06	4	17.85	29.95	1.5	SELF HELP	SEH
+9247381001	HOW TO MANAGE THE MANAGER	09-MAY-03	1	15.4	31.95	 - 	BUSINESS	BUS
+2147428890	SHORTEST POEMS	01-MAY-05	5	21.85	39.95	 - 	LITERATURE	LIT
+
+COMMIT;
+Output
+Statement processed.
+5.
+ALTER TABLE books
+	DROP column category;
+Output
+Table altered.
