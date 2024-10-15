@@ -1,0 +1,126 @@
+Chapter 6, Hands-on #1
+1.
+CREATE SEQUENCE customers_customer#_seq
+    INCREMENT BY 1
+    START WITH 1021
+    NOMAXVALUE
+    NOMINVALUE
+    NOCYCLE
+    NOCACHE;
+Output
+Sequence created.
+2.
+INSERT INTO customers (customer#, lastname, firstname, zip)
+	VALUES (customers_customer#_seq.NEXTVAL, 'SHOULDERS', 'FRANK', 23567)
+Output
+1 row(s) inserted.
+3.
+CREATE SEQUENCE my_first_seq
+	INCREMENT BY -3
+	START WITH 5
+    MAXVALUE 5
+	MINVALUE 0
+	NOCYCLE;
+Output
+Sequence created.
+4.
+SELECT my_first_seq.NEXTVAL
+	FROM DUAL;
+Output
+NEXTVAL
+5
+
+SELECT my_first_seq.NEXTVAL
+	FROM DUAL;
+Output
+NEXTVAL
+2
+
+SELECT my_first_seq.NEXTVAL
+	FROM DUAL;
+Output
+ORA-08004: sequence MY_FIRST_SEQ.NEXTVAL goes below MINVALUE and cannot be instantiated
+what caused the error is the with set the minimun value to 0 so it can not go lower than that.
+5.
+ALTER SEQUENCE my_first_seq
+	MINVALUE -1000
+Output
+Sequence altered.
+6.
+CREATE TABLE email_log
+	(emailid NUMBER GENERATED AS IDENTITY PRIMARY KEY,
+    emaildate DATE,
+    customer# NUMBER);
+Output
+Table created.
+
+INSERT INTO email_log (emaildate, customer#)
+	VALUES (SYSDATE, 1007);
+Output
+1 row(s) inserted.
+
+INSERT INTO email_log (emailid, emaildate, customer#)
+	VALUES (DEFAULT, SYSDATE, 1008);
+Output
+1 row(s) inserted.
+
+INSERT INTO email_log (emailid, emaildate, customer#)
+	VALUES (25, SYSDATE, 1009);
+Output
+ORA-32795: cannot insert into a generated always identity column 
+the error occurs because identity column does not allow a value to be specified for the column.
+7.
+CREATE SYNONYM numgen
+	FOR my_first_seq;
+Output
+Synonym created.
+8.
+SELECT numgen.CURRVAL
+	FROM DUAL;
+Output
+CURRVAL
+-1
+
+DROP SYNONYM numgen;
+Output
+Synonym dropped.
+9.
+CREATE BITMAP INDEX customers_state_idx
+	ON customers(state);
+Output
+Index created.
+
+SELECT 	table_name, index_name, index_type
+	FROM user_indexes
+	WHERE table_name = 'CUSTOMERS';
+Output
+TABLE_NAME	INDEX_NAME	INDEX_TYPE
+CUSTOMERS	CUSTOMERS_CUSTOMER#_PK	NORMAL
+CUSTOMERS	CUSTOMERS_STATE_IDX	BITMAP
+
+DROP INDEX customers_state_idx;
+Output
+Index dropped.
+10.
+CREATE INDEX customers_lastname_idx
+	ON customers (lastname);
+Output
+Index created.
+
+SELECT 	table_name, index_name, index_type
+	FROM user_indexes
+	WHERE table_name = 'CUSTOMERS';
+Output
+
+TABLE_NAME	INDEX_NAME	INDEX_TYPE
+CUSTOMERS	CUSTOMERS_CUSTOMER#_PK	NORMAL
+CUSTOMERS	CUSTOMERS_LASTNAME_IDX	NORMAL
+
+DROP INDEX customers_lastname_idx
+Output
+Index dropped.
+11.
+CREATE INDEX orders_daystoship#_idx
+	ON orders (shipdate-orderdate);
+Output
+Index created.
