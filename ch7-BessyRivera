@@ -1,4 +1,4 @@
-Chapter 7, Hands-on #1
+Chapter 7, Hands-on #1  (no output)
 1.
 CREATE USER brivera
 	IDENTIFIED BY eliza02;
