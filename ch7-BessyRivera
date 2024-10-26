@@ -1,0 +1,93 @@
+Chapter 7, Hands-on #1
+1.
+CREATE USER brivera
+	IDENTIFIED BY eliza02;
+2.
+SKIPED
+3.
+GRANT CREATE SESION
+	TO brivera;
+
+GRANT CREATE TABLE, ALTER ANY TABLE
+  TO brivera;
+4.
+CREATE ROLE customerrep;
+
+GRANT insert, delete
+  ON orders, orderitems
+  TO customerrep;
+5.
+GRANT customerrep
+  TO brivera;
+6.
+SELECT name
+  FROM system_privilege_map;
+7.
+REVOKE delete
+   ON orders, orderitems
+  FROM customerrep;
+8.
+REVOKE customerrep
+  FROM brivera;
+9.
+DROP ROLE customerrep;
+10.
+DROP USER brivera;
+
+Advanced Challenge #2
+1.
+List of tables for employees
+
+Account managers
+1.books table
+2.orderitems
+3.promotions
+Data entry clerks
+1.books table
+2.bookauthors
+3.publisher table
+Customer service representatives
+1.customers table
+2.orders table
+
+2.
+Privileges for employees
+
+For account managers they need the following privileges:
+insert ON promotios table and select ON books table.
+
+For data entry clerks they need the following privileges:
+insert ON books table, publishers table and booksauthors table, and update ON publishers.
+
+For customer representatives they need the following privileges;
+insert ON customers table and orders table.
+
+3.
+Commands for creating and assigning privileges to roles
+For account managers:
+CREATE ROLE accountmanagers;
+GRANT insert
+  ON promotions
+  TO accountmanagers;
+GRANT select
+  ON books
+  TO accountmanagers;
+
+For data entry clerks:
+CREATE ROLE dataentry; 
+GRANT insert
+  ON books, publishers, booksauthors
+  TO dataentry;
+GRANT update
+  ON publishers
+  TO dataentry;
+
+For customer representatives:
+CREATE ROLE customerrepresentative;
+GRANT insert
+  ON customer, orders
+  TO customerrepresentative;
+4.
+The insert command allows the user to add new rows to the table allowing the account managers to add new promotions to the promotions table, to the data entry clerks allows them to add new books, the publisher informatin and the books author information, for the customer service representatives it also only allows them to put new customers information orders informations in the database.
+The select command allows the user to see the books that they may give the promotion to.
+The update command allows the data entry clerks to change information in the publishers table to change prices.
