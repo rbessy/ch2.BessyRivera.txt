@@ -1,0 +1,102 @@
+---Chapter 11, Hand-on Assigments
+#1
+SELECT COUNT(*)
+	FROM books
+	WHERE category = 'COOKING';
+Output
+COUNT(*)
+2
+
+#2
+SELECT COUNT(*)
+	FROM books
+	WHERE retail > 30;
+Output
+COUNT(*)
+8
+
+#3
+SELECT MAX(pubdate)
+	FROM books;
+Output
+MAX(PUBDATE)
+11-NOV-06
+
+#4
+SELECT SUM((retail-cost)*quantity)
+	FROM orders JOIN orderitems USING(order#) JOIN books USING(isbn)
+	WHERE customer# = 1017;
+Output
+SUM((RETAIL-COST)*QUANTITY)
+59.78
+
+#5
+SELECT MIN(retail)
+	FROM books
+	WHERE category = 'COMPUTER';
+Output
+MIN(RETAIL)
+25
+
+#6
+SELECT AVG(SUM((retail-cost)*quantity))"Average Profit"
+	FROM orders JOIN orderitems USING(order#) JOIN books USING(isbn)
+	GROUP BY order#;
+Output
+Average Profit
+33.77238095238095238095238095238095238095
+
+#7
+SELECT customer#, COUNT(*)
+	FROM orders
+	GROUP BY customer#;
+Output
+1017	1
+1014	1
+1011	1
+1007	2
+1004	1
+1008	1
+1010	2
+1018	2
+1005	2
+1001	2
+1015	1
+1020	2
+1003	2
+
+#8
+SELECT name, category, AVG(retail)
+	FROM books JOIN publisher USING(pubid)
+	WHERE category IN('COMPUTER', 'CHILDREN')
+	GROUP BY name, category;
+Output
+NAME	CATEGORY	AVG(RETAIL)
+PUBLISH OUR WAY	CHILDREN	59.95
+REED-N-RITE	CHILDREN	8.95
+AMERICAN PUBLISHING	COMPUTER	52.3
+PUBLISH OUR WAY	COMPUTER	54.5
+
+#9
+SELECT DISTINCT firstname, lastname
+	FROM customers JOIN orders USING(customer#) JOIN orderitems USING(order#) JOIN books USING(isbn)
+	WHERE (state = 'FL' or state = 'GA')
+	GROUP BY order#, firstname, lastname
+	HAVING SUM(retail*quantity)>80;
+Output
+FIRSTNAME	LASTNAME
+LEILA	SMITH
+JAKE	LUCAS
+BONITA	MORALES
+
+#10
+SELECT MAX(retail)
+	FROM books JOIN bookauthor USING(isbn) JOIN author USING(authorid)
+	WHERE lname = 'WHITE'
+	AND fname = 'LISA';
+Output
+MAX(RETAIL)
+39.95
+
+Advanced challenge 
+
