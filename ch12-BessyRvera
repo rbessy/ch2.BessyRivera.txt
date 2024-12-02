@@ -1,0 +1,152 @@
+-- Chapter 12, Hands-on
+#1
+SELECT title, retail
+	FROM books
+	WHERE retail >
+	(SELECT AVG(retail)
+	FROM books);
+Output.
+TITLE	RETAIL
+BUILDING A CAR WITH TOOTHPICKS	59.95
+DATABASE IMPLEMENTATION	55.95
+HOLY GRAIL OF ORACLE	75.95
+E-BUSINESS THE EASY WAY	54.5
+PAINLESS CHILD-REARING	89.95
+
+#2
+SELECT a.title, b.category, a.cost
+	FROM books a, (SELECT category, AVG(cost) averagecost
+	FROM books
+	GROUP BY category) b
+	WHERE a.category = b.category
+	AND a.cost < b.averagecost;
+Output.
+TITLE	CATEGORY	COST
+BIG BEAR AND LITTLE DOVE	CHILDREN	5.32
+REVENGE OF MICKEY	FAMILY LIFE	14.2
+DATABASE IMPLEMENTATION	COMPUTER	31.4
+HANDCRANKED COMPUTERS	COMPUTER	21.8
+COOKING WITH MUSHROOMS	COOKING	12.5
+
+#3
+SELECT order#
+	FROM orders
+	WHERE shipstate = (SELECT shipstate
+	FROM orders
+	WHERE order# = 1014);
+Output.
+ORDER#
+1007
+1014
+
+#4
+SELECT order#, SUM(quantity * paideach)
+  FROM orderitems
+  GROUP BY order#
+  HAVING SUM(quantity * paideach) >
+  (SELECT SUM(quantity * paideach)
+  FROM orderitems
+  WHERE order# = 1008);
+Output.
+ORDER#	SUM(QUANTITY*PAIDEACH)
+1013	55.95
+1014	44
+1007	335.85
+1011	85.45
+1004	170.9
+1009	41.95
+1006	54.5
+1010	55.95
+1018	75.9
+1001	117.4
+1002	111.9
+1005	39.95
+1003	106.85
+1012	166.4
+1016	85.45
+
+#5
+SELECT lname, fname
+	FROM bookauthor JOIN author USING(authorid)
+	WHERE isbn IN
+	(SELECT isbn
+	FROM orderitems
+	GROUP BY isbn
+	HAVING SUM(quantity) =
+	(SELECT MAX(COUNT(*))
+	FROM orderitems
+	GROUP BY isbn));
+Output.
+LNAME	FNAME
+AUSTIN	JAMES
+ADAMS	JUAN
+PETERSON	TINA
+
+#6
+SELECT title
+	FROM books
+	WHERE category IN
+	(SELECT DISTINCT category
+	FROM books JOIN orderitems USING(isbn)
+	JOIN orders USING(order#)
+	WHERE customer# = 1007)
+	AND isbn NOT IN
+	(SELECT isbn
+	FROM orders JOIN orderitems USING(order#)
+	WHERE customer# = 1007);
+Output.
+TITLE
+BUILDING A CAR WITH TOOTHPICKS
+HANDCRANKED COMPUTERS
+PAINLESS CHILD-REARING
+
+#7
+SELECT shipcity, shipstate
+	FROM orders
+	WHERE shipdate-orderdate =
+	(SELECT MAX(shipdate-orderdate)
+	FROM orders);
+Output.
+SHIPCITY	SHIPSTATE
+TRENTON	NJ
+
+#8
+SELECT customer#
+	FROM customers JOIN orders USING(customer#) JOIN orderitems USING(order#) JOIN books USING(isbn)
+	WHERE retail =
+	(SELECT MIN(retail)
+	FROM books);
+Output.
+CUSTOMER#
+1007
+1017
+1015
+
+#9
+SELECT COUNT(DISTINCT customer#)
+	FROM orders JOIN orderitems USING(order#)
+	WHERE isbn IN
+	(SELECT isbn
+	FROM orderitems JOIN bookauthor USING(isbn)
+	JOIN author USING(authorid)
+	WHERE lname= 'AUSTIN'
+	AND fname = 'JAMES');
+output.
+COUNT(DISTINCTCUSTOMER#)
+5
+
+#10
+SELECT title
+	FROM books
+	WHERE pubid =
+	(SELECT pubid
+	FROM books
+	WHERE title = 'THE WOK WAY TO COOK');
+Output.
+TITLE
+BODYBUILD IN 10 MINUTES A DAY
+COOKING WITH MUSHROOMS
+THE WOK WAY TO COOK
+HOW TO GET FASTER PIZZA
+
+-- Chapter 12, Advanced challenge 
