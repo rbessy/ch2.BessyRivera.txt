@@ -73,4 +73,17 @@ View dropped.
 
 -- Chapter 13, Advanced challenge 
 #1
-https://livesql.oracle.com/ords/livesql/s/co857zfmn86v4edp217iyo0on
+SELECT b.Title, SUM(oi.Quantity) AS QTY, ROUND(((b.Retail - b.Cost) / b.Cost * 100)) AS profit
+  FROM Books b
+       JOIN OrderItems oi ON b.ISBN = oi.ISBN
+	GROUP BY b.Title, ((b.Retail - b.Cost) / b.Cost * 100)
+	ORDER BY QTY DESC
+	FETCH FIRST 5 ROWS ONLY;
+Output.
+TITLE	QTY	PROFIT
+COOKING WITH MUSHROOMS	8	60
+DATABASE IMPLEMENTATION	7	78
+PAINLESS CHILD-REARING	6	87
+REVENGE OF MICKEY	5	55
+BIG BEAR AND LITTLE DOVE	4	68
+
